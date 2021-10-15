@@ -7,4 +7,5 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 urlpatterns = [
     path('', include(router.urls)),
+    path('index',views.index,name='index'),
 ]
