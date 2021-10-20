@@ -1,4 +1,5 @@
 from django.db import models
+models.functions
 from django.contrib.auth.models import User
 from django.db.models.fields.related import OneToOneField
 import uuid
@@ -13,15 +14,13 @@ class Lesson(models.Model):
     video = models.FileField(upload_to=f"lessons{uuid}_videos/",validators=[FileExtensionValidator(allowed_extensions=['mp4'])])
     text = RichTextUploadingField()
     created_at = models.DateTimeField(auto_now_add=True)
-    
 class Teacher(models.Model):
     uuid = models.UUIDField(primary_key=True,default=uuid.uuid4)
     first_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)
     lessons = models.ManyToManyField(Lesson, blank=True)
-    @classmethod
-    def full_name(cls):
+    def full_name(self):
         "Full name"
-        return cls.objects.all()
+        return self.first_name+" "+self.last_name
 
 __all__ = ["Lesson","Teacher"]
